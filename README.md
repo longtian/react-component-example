@@ -19,14 +19,11 @@
 
 * 是通过 git 直接发布还是通过 NPM 发布 ？
 * 发布的是 ES5 的代码还是 ES6 的代码 ？
-* 怎么同时发布源代码和编译后的代码 ？
-* 如何解决 babel5 和 babel6 的冲突 ？
-* 组件的依赖怎么声明，是 devDependecy 还是 dependency ？
+* 如何解决 Babel5 和 Babel6 的冲突 ？
 
-这篇文章会通过编写一个叫做 MyComponet 的模块来演示发布一个模块需要注意的地方, 并不涉及单元测试和代码规范等。
+这篇文章会通过编写一个叫做 MyComponet 的例子来演示发布一个模块需要注意的地方, 并不涉及单元测试和代码规范等。
 
 前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。
-
 除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) ... 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，
 竟也派生出了 `源代码` 和 `编译` 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。
 
@@ -34,7 +31,7 @@
 
 ## 源代码
 
-我们来编写主模块 `MyComponent.jsx` ，放到项目的 `src` 目录下。
+我们来编写组件 `MyComponent.jsx` ，放到项目的 `src` 目录下。
 
 ```js
 import React from 'react';
@@ -65,7 +62,7 @@ export default MyComponent;
 目前最常用的是 Babel5 版本，但是 Babel6 版本的设计更为精巧，已经非常推荐更新。也正是由于 Babel 有两个版本，所以开发过程中很有可能遇到这样的情况，
 模块 A 的开发依赖于 Babel5 版本，而模块 B 依赖于 Babel6 版本。
 
-解决这个问题最好的做法就是把 A 和 B 拆开，独立开发和发布。并且在发布到 NPM 的时候发布是的编译后的，也就是 ES5 版本的代码。
+*解决这个问题最好的做法就是把 A 和 B 拆开，独立开发和发布。并且在发布到 NPM 的时候发布是的编译后的，也就是 ES5 版本的代码。*
 
 所以如果你的机器上的 `babel` 是全局安装的，是时候卸载它了，因为它的版本不是 5 就是 6 ，会导致一些不可预见的问题。
 
@@ -74,6 +71,10 @@ export default MyComponent;
 正确的安装方式是把 babel-cli 作为 develeopment 的依赖
 
 `npm install babel-cli --save-dev`
+
+使用的时候并不是直接调用全局的 Babel 而是调用依赖里的 Babel 可执行文件
+
+`./node_modules/.bin/babel`
 
 如果按照前文的约定来组织代码，`src` 目录结构看起来是这样的
 
@@ -144,7 +145,7 @@ npm install babel-preset-react --save-dev
 
 ## 样例代码
 
-开发和调试 React 模块目前最好用的打包工具还是 Webpack。在项目跟目录下，新建一个 example 目录：
+开发和调试 React 模块目前最好用的打包工具还是 Webpack，在项目跟目录下，新建一个 example 目录：
 
 example/index.html
 
