@@ -6,6 +6,9 @@
 - [前言](#前言)
 - [源代码](#源代码)
 - [编译](#编译)
+  - [Babel](#babel)
+  - [命令详解](#命令详解)
+  - [.babelrc文件](#.babelrc文件)
 - [样例代码](#样例代码)
 - [发布](#发布)
 - [使用](#使用)
@@ -57,6 +60,8 @@ export default MyComponent;
 
 ## 编译
 
+### Babel
+
 为了把 ES6 代码编译成 ES5，需要安装 Babel，这个工具可以说野心极大，一次编译可以让 JavaScript 运行在所有地方。（听起来是不是有点 Java 的作风）
 
 目前最常用的是 Babel5 版本，但是 Babel6 版本的设计更为精巧，已经非常推荐更新。也正是由于 Babel 有两个版本，所以开发过程中很有可能遇到这样的情况，
@@ -102,6 +107,8 @@ lib
 └── MyComponent.js.map
 ```
 
+### 命令详解
+
 具体解释一下各个命令的作用：
 
 第一条命令 `./node_modules/.bin/rimraf lib`
@@ -123,6 +130,8 @@ lib
 `--copy-files` 对于不需要编译的文件直接拷贝
 
 `--source-maps` 生成 souce-map 文件
+
+### .babelrc 文件
 
 编译过程中还隐含了一个步骤就是加载 `.babelrc` 文件里的配置，该文件内容如下
 
