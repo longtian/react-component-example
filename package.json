@@ -1,0 +1,28 @@
+{
+  "name": "react-component-example",
+  "version": "0.0.0",
+  "description": "Tutorial on how to write React component in ES6 and publishing",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "dev": "rimraf lib && babel src --watch --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib",
+    "compile": "rimraf lib && babel src --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib"
+  },
+  "keywords": [
+    "react",
+    "react-component"
+  ],
+  "author": "wyvernnot",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "rimraf": "^2.5.0"
+  }
+}

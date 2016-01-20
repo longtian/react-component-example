@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/foo.es6"],"names":[],"mappings":";;;;;;;;;kBAGe,MAAM,eAAK,EAAL","file":"foo.js","sourcesContent":["/**\n * Created by yan on 16-1-20.\n */\nexport default foo = ()=> {\n\n}"]}
