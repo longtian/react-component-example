@@ -1,6 +1,18 @@
 # react-component-example
 > 如何使用 ES6 编写一个 React 模块, 并且编译后发布到 NPM.
 
+## 目录
+
+- [前言](#前言)
+- [源代码](#源代码)
+- [编译](#编译)
+- [样例代码](#样例代码)
+- [发布](#发布)
+- [使用](#使用)
+- [关于](#关于)
+
+## 前言
+
 如果你在使用 React， 那么肯定已经撸了好多自己的组件， 并尝试着共享出来。在 OneAPM 前端开发过程中， 我们也曾遇到了一些组件共享的问题：
 
 例如:
@@ -130,7 +142,7 @@ lib
 npm install babel-preset-react --save-dev
 ```
 
-## 编写样例代码
+## 样例代码
 
 开发和调试 React 模块目前最好用的打包工具还是 Webpack。在项目跟目录下，新建一个 example 目录：
 
@@ -232,6 +244,6 @@ import MyComponent from 'react-component-example/src/MyComponent.jsx'
 
 `./node_modules/.bin/babel --version` 6.4.5 (babel-core 6.4.5)
 
-## LICENSE
+**LICENSE**
 
 MIT
