@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/foo.es6"],"names":[],"mappings":";;;;;;;;;kBAGe,MAAM,eAAK,EAAL","file":"foo.js","sourcesContent":["/**\n * Created by yan on 16-1-20.\n */\nexport default foo = ()=> {\n\n}"]}
+{"version":3,"sources":["../src/foo.es6"],"names":[],"mappings":";;;;;;;;AAGA,IAAM,MAAM,SAAN,GAAM,GAAK,EAAL;kBAGG","file":"foo.js","sourcesContent":["/**\n * Created by yan on 16-1-20.\n */\nconst foo = ()=> {\n\n}\nexport default foo;"]}

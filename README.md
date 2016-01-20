@@ -89,9 +89,11 @@ lib
 └── MyComponent.js.map
 ```
 
+具体解释一下各个命令的作用：
+
 第一条命令 `./node_modules/.bin/rimraf lib`
 
-**作用** 清空之前的 lib 目录
+**作用** 编译前清空之前的 lib 目录，这是一个好习惯，可以杜绝对 lib 下的文件的任何手动更改。
 
 第二条命令
 
@@ -109,7 +111,7 @@ lib
 
 `--source-maps` 生成 souce-map 文件
 
-编译过程中还隐含了一个步骤就是加载 `.babelrc` 文件里的配置，内容如下
+编译过程中还隐含了一个步骤就是加载 `.babelrc` 文件里的配置，该文件内容如下
 
 ```json
 {
@@ -121,21 +123,61 @@ lib
 }
 ```
 
-这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 react 的 preset，同时项目依赖里要添加 babel-preset-react
+这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 react 的 preset，同时项目依赖里要添加
+`babel-preset-react`
 
 ```sh
 npm install babel-preset-react --save-dev
 ```
 
+## 编写样例代码
+
+开发和调试 React 模块目前最好用的打包工具还是 Webpack。在项目跟目录下，新建一个 example 目录：
+
+example/index.html
+
+```html
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Example</title>
+</head>
+<body></body>
+<script src="bundle.js"></script>
+</html>
+```
+
+example/src/index.jsx
+
+```js
+import React from 'react';
+import MyComponent,{foo,bar} from '../../';
+import {render} from 'react-dom';
+
+var element = document.createElement("div");
+document.body.appendChild(element);
+render(<MyComponent name="myComponent"/>, element);
+```
+
+
+## 发布
+
+发布前，还有一件事就是为你的模块添加一个入口文件 index.js
+
+```
+module.exports = require('./lib/MyComponent');
+exports.default = require('./lib/MyComponent');
+exports.bar = require('./lib/bar');
+exports.foo = require('./lib/foo');
+```
+
+## 关于
+
 **本文使用的 babel 版本**
 
 `./node_modules/.bin/babel --version` 6.4.5 (babel-core 6.4.5)
 
-## 打包
+## LICENSE
 
-## 发布
-
-## 回顾
-
-lib
-
+MIT
