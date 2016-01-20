@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Tutorial on how to write React component in ES6 and publishing",
   "main": "index.js",
+  "style": "style.css",
   "scripts": {
     "start": "webpack-dev-server",
     "dev": "rimraf lib && babel src --watch --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib",
@@ -21,8 +22,10 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
+    "css-loader": "^0.23.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
-    "rimraf": "^2.5.0"
+    "rimraf": "^2.5.0",
+    "style-loader": "^0.13.0"
   }
 }

@@ -8,13 +8,19 @@
 - [编译](#编译)
   - [Babel](#babel)
   - [命令详解](#命令详解)
-  - [.babelrc文件](#.babelrc文件)
+  - [.babelrc文件](#babelrc文件)
 - [样例代码](#样例代码)
 - [发布](#发布)
 - [使用](#使用)
+  - [使用源码](#使用源码)
+  - [样式](#样式)
 - [关于](#关于)
 
 ## 前言
+
+前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。
+除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) ... 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，
+竟也派生出了 `源代码` 和 `编译` 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。
 
 如果你在使用 React， 那么肯定已经撸了好多自己的组件， 并尝试着共享出来。在 OneAPM 前端开发过程中， 我们也曾遇到了一些组件共享的问题：
 
@@ -24,17 +30,14 @@
 * 发布的是 ES5 的代码还是 ES6 的代码 ？
 * 如何解决 Babel5 和 Babel6 的冲突 ？
 
-这篇文章会通过编写一个叫做 MyComponet 的例子来演示发布一个模块需要注意的地方, 并不涉及单元测试和代码规范等。
-
-前端开发果真是发展迅猛，刚享受到由模块化，组件化和单元测试带来的种种好处，又得迅速拥抱 Grunt, Gulp, Browserify， Webpack 这类自动化工具的变革。
-除了工具和生态圈，JavaScript 本身也在飞速发展着。ES2015(ES6) ，ES2016(ES7) ... 照这样的节奏，几乎是一年一个标准。标准多了，为解决兼容性的问题，
-竟也派生出了 `源代码` 和 `编译` 的概念。前端开发者通过语法糖、转化器、Polyfill 等，可以享受到标准乃至尚未定稿草案里的规范的便利，大幅提升开发效率。
-
+这篇文章会通过编写一个叫做 MyComponet 的组件来演示发布一个 React 组件需要注意的地方, 并不涉及单元测试和代码规范等。
 至于这个模块本身,它的功能特别简单, 就是显示模块自身的的属性。
 
 ## 源代码
 
-我们来编写组件 `MyComponent.jsx` ，放到项目的 `src` 目录下。
+我们来编写 `MyComponent` 组件，放到项目的 `src` 目录下。
+
+**src/MyComponent.jsx**
 
 ```js
 import React from 'react';
@@ -73,11 +76,11 @@ export default MyComponent;
 
 `npm uninstall babel-cli --global`
 
-正确的安装方式是把 babel-cli 作为 develeopment 的依赖
+正确的安装方式是把 babel-cli 作为 development 依赖
 
 `npm install babel-cli --save-dev`
 
-使用的时候并不是直接调用全局的 Babel 而是调用依赖里的 Babel 可执行文件
+使用的时候并不是直接调用全局的 `babel` 而是调用依赖里的 `babel` 可执行文件
 
 `./node_modules/.bin/babel`
 
@@ -92,9 +95,10 @@ src
 
 模块所有的代码都在一个目录下，这样编译过程就简单多了，两条命令就可以完成
 
-`./node_modules/.bin/rimraf lib`
-
-`./node_modules/.bin/babel src --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib`
+```sh
+./node_modules/.bin/rimraf lib
+./node_modules/.bin/babel src --copy-files --source-maps --extensions .es6,.es,.jsx --out-dir lib
+```
 
 输出目录的结构
 
@@ -145,7 +149,7 @@ lib
 }
 ```
 
-这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 react 的 preset，同时项目依赖里要添加
+这是因为 Babel6 采用了插件化的设计，做到了灵活配置：如果要转换 JSX 语法文件，就加上 React 的 preset，同时项目依赖里要添加
 `babel-preset-react`
 
 ```sh
@@ -215,7 +219,7 @@ module.exports = {
 
 ## 发布
 
-发布前，还有一件事就是为你的模块添加一个入口文件 `index.js`
+发布前，还有一件事就是为你的模块添加一个入口文件 `index.js`，全部指向编译后的代码
 
 ```
 module.exports = require('./lib/MyComponent');
@@ -224,29 +228,41 @@ exports.bar = require('./lib/bar');
 exports.foo = require('./lib/foo');
 ```
 
-接下来就是发布到 NPM 了。
+接下来就可以发布到 NPM 了。
 
-```
+```sh
 npm publish
 ```
 
 ## 使用
 
-别的开发者在使用你新发布的模块的时候可以这样导入
+别的开发者如果想使用你新发布的模块的时候可以直接通过 NPM 安装
 
+```sh
+npm install react-component-example --save-dev
 ```
+
+然后在父级项目的代码里导入模块
+
+```js
 import MyComponent,{foo,bat} from 'react-component-example'
 ```
 
-导入的直接是 ES5 代码，跳过编译从而避免了出现 Babel 版本不一致的问题，并且速度更快，是不是很棒！
+此时导入的直接是 ES5 代码，跳过了组件的编译过程从而避免了出现组件 Babel 版本和父级项目 Babel 版本不一致的问题，并且速度更快，是不是很棒！
 
-不过假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：
+### 使用源码
+
+假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：
 
 ```
 import MyComponent from 'react-component-example/src/MyComponent.jsx'
 ```
 
-导入的是 ES6 代码，并且会被加入父级项目的编译过程。
+这种情况下，导入的是 ES6 代码，并且会被加入父级项目的编译过程。此外，父级项目在编译这个文件的时候会读取组件的 .babelrc 配置文件。
+
+### 样式
+
+推荐每个模块在发布的时候把样式文件 style.css 放在根目录下，如果使用的是预处理工具 LESS 或者 SASS， 同样把处理前后的样式文件一起发布。
 
 ## 关于
 

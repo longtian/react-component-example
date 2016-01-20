@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import MyComponent from '../../lib/MyComponent';
+import 'style!css!../../style.css';
 import {render} from 'react-dom';
 
 var element = document.createElement("div");
