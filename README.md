@@ -160,10 +160,40 @@ document.body.appendChild(element);
 render(<MyComponent name="myComponent"/>, element);
 ```
 
+webpack.config.js
+
+```js
+var path = require('path');
+
+module.exports = {
+  entry: path.join(__dirname, 'example', 'src', 'index.jsx'),
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders: [{
+      test: /\.jsx$/,
+      loader: 'babel',
+      include: [
+        path.join(__dirname, 'example')
+      ]
+    }]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'example')
+  }
+}
+```
+
+**运行样例代码**
+
+```sh
+./node_modules/.bin/webpack-dev-server
+```
 
 ## 发布
 
-发布前，还有一件事就是为你的模块添加一个入口文件 index.js
+发布前，还有一件事就是为你的模块添加一个入口文件 `index.js`
 
 ```
 module.exports = require('./lib/MyComponent');
@@ -171,6 +201,30 @@ exports.default = require('./lib/MyComponent');
 exports.bar = require('./lib/bar');
 exports.foo = require('./lib/foo');
 ```
+
+接下来就是发布到 NPM 了。
+
+```
+npm publish
+```
+
+## 使用
+
+别的开发者在使用你新发布的模块的时候可以这样导入
+
+```
+import MyComponent,{foo,bat} from 'react-component-example'
+```
+
+导入的直接是 ES5 代码，跳过编译从而避免了出现 Babel 版本不一致的问题，并且速度更快，是不是很棒！
+
+不过假设你的模块包含很多组件，开发者可能只想用其中的一个或某几个，这时可以这样导入：
+
+```
+import MyComponent from 'react-component-example/src/MyComponent.jsx'
+```
+
+导入的是 ES6 代码，并且会被加入父级项目的编译过程。
 
 ## 关于
 
